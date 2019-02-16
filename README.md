@@ -3,7 +3,8 @@ A Collection of Experimental Scripts for Cinema 4D.
 
 ## Scripts
 
-* **DK-Aim At:** Aims Z-Axis of selected objects at the last selected object.
+* **DK-Aim At:** Aims Z-Axis of selected objects at the last selected object.  
+![DK-Aim At Usage Demo](docs/images/DK-AimAt.gif)
 
 ## License
 
