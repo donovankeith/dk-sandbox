@@ -1,12 +1,19 @@
 """Name-en-US: DK-Select Objects By Display Color
 Description-en-US: Selects Objects with a Similar Display Color
 
+This script is most useful for flat hierarchies of objects imported from
+CAD programs. It's not recommened for scenes with complex hierarchies or
+those with existing animations.
 
 ## Usage Instructions
 
 1. Select the objects whose colors you want to match.
 2. Run this Script.
 
+## Thanks
+
+Written in response to [this request](https://forums.cgsociety.org/t/select-objects-by-display-color/2050047/5)
+from LonChaney on CG Talk.
 
 ## License
 
