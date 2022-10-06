@@ -22,26 +22,42 @@ def create_node_material(node_space_id=None):
     if mat is None:
         raise ValueError("Unable to create material.")
 
-    node_material = mat.GetNodeMaterialReference()
-    if node_material is None:
+    node_mat_ref = mat.GetNodeMaterialReference()
+    if node_mat_ref is None:
         raise ValueError("Unable to get mat as node material.")
 
-    return node_material
+    graph = node_mat_ref.AddGraph(node_space_id)
+    if graph is None:
+        raise ValueError("Unable to add Grap to material.")
+
+    # nimbus_ref = mat.GetNimbusRef(node_space_id)
+    # if nimbus_ref is None:
+    #     raise ValueError("Unable to Get Nimbus Ref.")
+
+    root = graph.GetRoot()
+    if root is None:
+        raise ValueError("Unable to get root node.")
+
+    return mat, root
 
 def create_redshift_node_material():
     NODE_SPACE_REDSHIFT = "com.redshift3d.redshift4c4d.class.nodespace"
-    mat = create_node_material(node_space_id=NODE_SPACE_REDSHIFT)
-    if mat is None:
-        raise ValueError("Unable to create redshift node material.")
+    mat, root = create_node_material(node_space_id=NODE_SPACE_REDSHIFT)
+    if (mat is None) or (root is None):
+        raise ValueError("Unable to create redshift node material and retrieve root node.")
 
-    return mat
+    return mat, root
 
 def main():
-    node_material = create_redshift_node_material()
-    if node_material is None:
+    node_mat, root = create_redshift_node_material()
+    if (node_mat is None) or (root is None):
         raise ValueError("Unable to create Redshift Material.")
 
-    print(node_material)
+    doc.StartUndo()
+    doc.AddUndo(c4d.UNDOTYPE_NEW, node_mat)
+    doc.InsertMaterial(node_mat)
+    doc.EndUndo()
+    c4d.EventAdd()
 
 if __name__ == "__main__":
     main()
