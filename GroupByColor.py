@@ -6,6 +6,10 @@ Description-en-US: Groups all objects in scene by display color. WARNING: Breaks
 1. Save a backup of your scene.
 2. Run this script.
 
+## Known Issues
+
+Not really working at the moment.
+
 ## License
 
 The MIT License (MIT)
@@ -83,7 +87,7 @@ def main():
     c4d.StatusSetText("[2/2]: Grouping Objects.")
     # Build groups of objects by color
     pred_null = None
-    for color_string, obj_mg_list in colors_objects_mgs.iteritems():
+    for color_string, obj_mg_list in colors_objects_mgs.items():
         # Find the center position of the objects
         average_pos = c4d.Vector(0.0)
 
@@ -97,8 +101,9 @@ def main():
 
         # Make it the same color as the objects
         null_obj[c4d.ID_BASEOBJECT_USECOLOR] = 1  # Automatic Mode
+        print(color_string)
         null_obj[c4d.ID_BASEOBJECT_COLOR] = eval("c4d." + color_string)
-        null_obj[c4d.NULLOBJECT_ICONCOL] = True
+        null_obj[c4d.ID_BASELIST_ICON_COLORIZE_MODE] = 2  # Display color
 
         # Center the null
         center_mg = c4d.Matrix()
