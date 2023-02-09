@@ -59,6 +59,7 @@ import c4d
 from c4d import gui
 import os
 
+
 class ChannelTexture(object):
     def __init__(self, name, channel_id, shader_id, tokens):
         self.name = name
@@ -81,9 +82,9 @@ class ChannelTexture(object):
         # See if any of the chunks match existing tokens
         is_match = False
         for token in self.tokens:
-           if token in chunks:
-               is_match = True
-               break
+            if token in chunks:
+                is_match = True
+                break
 
         if not is_match:
             return False
@@ -102,7 +103,8 @@ class ChannelTexture(object):
 
 # Main function
 def main():
-    texture_dir = c4d.storage.LoadDialog(type=c4d.FILESELECTTYPE_IMAGES, title="Select Directory Containing Textures", flags=c4d.FILESELECT_DIRECTORY)
+    texture_dir = c4d.storage.LoadDialog(
+        type=c4d.FILESELECTTYPE_IMAGES, title="Select Directory Containing Textures", flags=c4d.FILESELECT_DIRECTORY)
     if texture_dir is None:
         c4d.StatusSetText("Import Textures: Cancelled")
         return
@@ -110,13 +112,19 @@ def main():
     mat = c4d.BaseMaterial(c4d.Mmaterial)
 
     channels = [
-        ChannelTexture("Color", c4d.MATERIAL_USE_COLOR, c4d.MATERIAL_COLOR_SHADER, ["color", "diffuse", "albedo", "col", "diff", "dif", "clr"]),
-        ChannelTexture("Luminance", c4d.MATERIAL_USE_LUMINANCE, c4d.MATERIAL_LUMINANCE_SHADER, ["luminance", "emission", "luma", "lum", "emi"]),
-        ChannelTexture("Bump", c4d.MATERIAL_USE_BUMP, c4d.MATERIAL_BUMP_SHADER, ["bump", "bmp"]),  #TODO: Fix possible bug with *.bmp files
-        ChannelTexture("Displacement", c4d.MATERIAL_USE_DISPLACEMENT, c4d.MATERIAL_DISPLACEMENT_SHADER, ["displacement", "disp", "height"]),
-        ChannelTexture("Ambient Occlusion", c4d.MATERIAL_USE_DIFFUSION, c4d.MATERIAL_DIFFUSION_SHADER, ["ambientocclusion", "ambient", "AO", "occlusion"]),
-        ChannelTexture("Normal", c4d.MATERIAL_USE_DIFFUSION, c4d.MATERIAL_DIFFUSION_SHADER, ["normal", "norm", "nrml", "nrm"])
-        ]
+        ChannelTexture("Color", c4d.MATERIAL_USE_COLOR, c4d.MATERIAL_COLOR_SHADER, [
+                       "color", "diffuse", "albedo", "col", "diff", "dif", "clr"]),
+        ChannelTexture("Luminance", c4d.MATERIAL_USE_LUMINANCE, c4d.MATERIAL_LUMINANCE_SHADER, [
+                       "luminance", "emission", "luma", "lum", "emi"]),
+        ChannelTexture("Bump", c4d.MATERIAL_USE_BUMP, c4d.MATERIAL_BUMP_SHADER, [
+                       "bump", "bmp"]),  # TODO: Fix possible bug with *.bmp files
+        ChannelTexture("Displacement", c4d.MATERIAL_USE_DISPLACEMENT,
+                       c4d.MATERIAL_DISPLACEMENT_SHADER, ["displacement", "disp", "height"]),
+        ChannelTexture("Ambient Occlusion", c4d.MATERIAL_USE_DIFFUSION, c4d.MATERIAL_DIFFUSION_SHADER, [
+                       "ambientocclusion", "ambient", "AO", "occlusion"]),
+        ChannelTexture("Normal", c4d.MATERIAL_USE_DIFFUSION, c4d.MATERIAL_DIFFUSION_SHADER, [
+                       "normal", "norm", "nrml", "nrm"])
+    ]
 
     for texture in os.listdir(texture_dir):
         for channel in channels:
@@ -128,6 +136,7 @@ def main():
     doc.InsertMaterial(mat)
     c4d.EventAdd()
 
+
 # Execute main()
-if __name__=='__main__':
+if __name__ == '__main__':
     main()
