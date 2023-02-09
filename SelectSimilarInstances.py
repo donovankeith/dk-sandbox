@@ -65,7 +65,6 @@ def IterateHierarchy(op):
 
     while op:
         count += 1
-        print op.GetName()
         op = GetNextObject(op)
 
     return count
