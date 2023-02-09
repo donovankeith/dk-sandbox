@@ -2,6 +2,8 @@
 
 A Collection of Experimental Scripts for Cinema 4D.
 
+Repo: https://github.com/donovankeith/dk-sandbox
+
 ## Scripts
 
 - **DK-Aim At:** Aims Z-Axis of selected objects at the last selected object.  
