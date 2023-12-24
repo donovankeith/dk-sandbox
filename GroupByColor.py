@@ -6,6 +6,10 @@ Description-en-US: Groups all objects in scene by display color. WARNING: Breaks
 1. Save a backup of your scene.
 2. Run this script.
 
+## Known Issues
+
+Not really working at the moment.
+
 ## License
 
 The MIT License (MIT)
@@ -36,12 +40,13 @@ from c4d import gui
 # Utility Functions
 # =================
 
+
 def GetNextObject(op):
     """Retrieve the next object in the document.
     Source: https://developers.maxon.net/?p=596
     """
 
-    if op==None:
+    if op == None:
         return None
 
     if op.GetDown():
@@ -53,8 +58,10 @@ def GetNextObject(op):
     return op.GetNext()
 
 # Main function
+
+
 def main():
-    colors_objects_mgs = {} 
+    colors_objects_mgs = {}
 
     doc.StartUndo()
 
@@ -80,7 +87,7 @@ def main():
     c4d.StatusSetText("[2/2]: Grouping Objects.")
     # Build groups of objects by color
     pred_null = None
-    for color_string, obj_mg_list in colors_objects_mgs.iteritems():
+    for color_string, obj_mg_list in colors_objects_mgs.items():
         # Find the center position of the objects
         average_pos = c4d.Vector(0.0)
 
@@ -91,20 +98,21 @@ def main():
 
         # Create a null centered between the objects
         null_obj = c4d.BaseObject(c4d.Onull)
-        
+
         # Make it the same color as the objects
         null_obj[c4d.ID_BASEOBJECT_USECOLOR] = 1  # Automatic Mode
+        print(color_string)
         null_obj[c4d.ID_BASEOBJECT_COLOR] = eval("c4d." + color_string)
-        null_obj[c4d.NULLOBJECT_ICONCOL] = True
-        
+        null_obj[c4d.ID_BASELIST_ICON_COLORIZE_MODE] = 2  # Display color
+
         # Center the null
         center_mg = c4d.Matrix()
         mg.off = average_pos
-        
+
         # Ensure nulls are inserted roughly in the same order colors first occurred in the scene.
         doc.InsertObject(null_obj, pred=pred_null)
         pred_null = null_obj
-        
+
         # Center the null
         null_obj.SetMg(center_mg)
         doc.AddUndo(c4d.UNDOTYPE_NEW, null_obj)
@@ -121,8 +129,8 @@ def main():
     doc.EndUndo()
     c4d.EventAdd()
     c4d.StatusClear()
-    
+
 
 # Execute main()
-if __name__=='__main__':
+if __name__ == '__main__':
     main()

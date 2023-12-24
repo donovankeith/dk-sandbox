@@ -48,6 +48,7 @@ from c4d import gui
 # Menu State
 # ==========
 
+
 def state():
     """Command is available if any object is selected.
     """
@@ -60,12 +61,13 @@ def state():
 # Utility Functions
 # =================
 
+
 def GetNextObject(op):
     """Retrieve the next object in the document.
     Source: https://developers.maxon.net/?p=596
     """
 
-    if op==None:
+    if op == None:
         return None
 
     if op.GetDown():
@@ -79,6 +81,7 @@ def GetNextObject(op):
 # Main Logic
 # ==========
 
+
 def main():
     active_objects = doc.GetActiveObjects(c4d.GETACTIVEOBJECTFLAGS_0)
     colors = []
@@ -88,7 +91,6 @@ def main():
         color = c4d.Vector(op[c4d.ID_BASEOBJECT_COLOR])
         if color not in colors:
             colors.append(color)
-
 
     doc.StartUndo()
 
@@ -102,10 +104,10 @@ def main():
 
         obj = GetNextObject(obj)
 
-
     doc.EndUndo()
     c4d.EventAdd()
 
+
 # Execute main()
-if __name__=='__main__':
+if __name__ == '__main__':
     main()

@@ -43,37 +43,38 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 import c4d
 from c4d import gui
 
+
 def GetNextObject(op):
-    if op==None:
+    if op == None:
         return None
-  
+
     if op.GetDown():
         return op.GetDown()
-  
+
     while not op.GetNext() and op.GetUp():
         op = op.GetUp()
-  
+
     return op.GetNext()
- 
- 
+
+
 def IterateHierarchy(op):
     if op is None:
         return
- 
+
     count = 0
-  
+
     while op:
         count += 1
-        print op.GetName()
         op = GetNextObject(op)
- 
+
     return count
+
 
 def main():
     active_objects = doc.GetActiveObjects(c4d.GETACTIVEOBJECTFLAGS_CHILDREN)
     if not active_objects:
         return
-    
+
     doc.StartUndo()
 
     # Make a list of selected instance "masters"
@@ -85,8 +86,8 @@ def main():
                 masters.append(ref)
         else:
             masters.append(ref)
-    
-    # Select all instances of "masters"       
+
+    # Select all instances of "masters"
     obj = doc.GetFirstObject()
     while obj:
         if obj.GetType() == c4d.Oinstance:
@@ -95,13 +96,13 @@ def main():
                 doc.SetActiveObject(obj, c4d.SELECTION_ADD)
         elif obj in masters:
             doc.SetActiveObject(obj, c4d.SELECTION_ADD)
-            
-            
+
         obj = GetNextObject(obj)
 
     doc.EndUndo()
     c4d.EventAdd()
 
+
 # Execute main()
-if __name__=='__main__':
+if __name__ == '__main__':
     main()
